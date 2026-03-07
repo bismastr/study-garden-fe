@@ -1,13 +1,13 @@
-import BunnySprite from "../components/BunnySprite";
 import GrassMap from "../components/GrassMap";
+import GardenGrid from "../components/GardenGrid";
 
 const GameScene = () => {
-    return (
-        <pixiContainer>
-            <GrassMap />
-            <BunnySprite />
-        </pixiContainer>
-    );
+  return (
+    <pixiContainer>
+      <GrassMap />
+      <GardenGrid />
+    </pixiContainer>
+  );
 };
 
 export default GameScene;
