@@ -8,7 +8,7 @@ const FLOWER_PATHS = [
   "/assets/flower/flower_04.png",
 ];
 
-const FLOWER_SCALE = 4;
+const FLOWER_SCALE = 2;
 
 interface FlowerSpriteProps {
   x: number;
