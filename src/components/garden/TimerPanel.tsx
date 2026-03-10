@@ -1,6 +1,12 @@
 import { useTimerCountdown } from "../../hooks/useTimerCountdown";
 import { useRoomStore } from "../../store/useRoomStore";
 import { wsService } from "../../services/wsService";
+import { Pause, Play } from "lucide-react";
+
+import { Card, CardContent } from "@/components/ui/8bit/card";
+import { Badge } from "@/components/ui/8bit/badge";
+import { Button } from "@/components/ui/8bit/button";
+import { Progress } from "@/components/ui/8bit/progress";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -8,12 +14,47 @@ function formatTime(seconds: number): string {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-const TimerPanel = () => {
+const FOCUS_DURATION = 25 * 60;
+const BREAK_DURATION = 5 * 60;
+
+const TimerDisplay = () => {
   useTimerCountdown();
 
   const remaining = useRoomStore((s) => s.timer.remaining);
-  const timerRunning = useRoomStore((s) => s.timer.timerRunning);
   const timerMode = useRoomStore((s) => s.timer.timerMode);
+
+  const isFocus = timerMode === "focus";
+  const totalDuration = isFocus ? FOCUS_DURATION : BREAK_DURATION;
+  const elapsed = totalDuration - remaining;
+  const progressValue = totalDuration > 0 ? (elapsed / totalDuration) * 100 : 0;
+
+  return (
+    <Card className="pointer-events-auto w-80 bg-card">
+      <CardContent className="flex flex-col items-center gap-3 px-8 py-4">
+        <Badge
+          variant={isFocus ? "default" : "secondary"}
+          className="text-[10px] uppercase tracking-widest"
+        >
+          {timerMode}
+        </Badge>
+
+        <span className="retro text-3xl font-bold tabular-nums text-foreground">
+          {formatTime(remaining)}
+        </span>
+
+        <Progress
+          value={progressValue}
+          variant="retro"
+          className="h-3 w-full"
+          progressBg={isFocus ? "bg-primary" : "bg-secondary"}
+        />
+      </CardContent>
+    </Card>
+  );
+};
+
+const TimerControls = () => {
+  const timerRunning = useRoomStore((s) => s.timer.timerRunning);
 
   const handleToggle = () => {
     if (timerRunning) {
@@ -23,28 +64,26 @@ const TimerPanel = () => {
     }
   };
 
-  const isFocus = timerMode === "focus";
-
   return (
-    <div className="pointer-events-auto bg-amber-100 border-4 border-amber-900 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] px-6 py-4 flex flex-col items-center gap-3">
-      <span
-        className={`font-mono text-xs font-bold uppercase tracking-widest px-3 py-1 ${isFocus ? "bg-green-700 text-amber-100" : "bg-blue-600 text-amber-100"}`}
-      >
-        {timerMode}
-      </span>
-
-      <span className="font-mono text-4xl font-bold text-amber-900 tabular-nums drop-shadow-[2px_2px_0_rgba(0,0,0,0.2)]">
-        {formatTime(remaining)}
-      </span>
-
-      <button
-        onClick={handleToggle}
-        className="pointer-events-auto bg-green-700 border-2 border-green-900 text-amber-100 font-mono font-bold px-5 py-2 uppercase tracking-wider shadow-[3px_3px_0_0_rgba(0,0,0,0.3)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.3)] active:shadow-none transition-all"
-      >
-        {timerRunning ? "Pause" : "Start"}
-      </button>
-    </div>
+    <Button
+      onClick={handleToggle}
+      variant="default"
+      size="lg"
+      className="pointer-events-auto px-16 py-5 text-base uppercase tracking-wider text-primary-foreground"
+    >
+      {timerRunning ? (
+        <>
+          <Pause className="size-5" />
+          Pause
+        </>
+      ) : (
+        <>
+          <Play className="size-5" />
+          Start
+        </>
+      )}
+    </Button>
   );
 };
 
-export default TimerPanel;
+export { TimerDisplay, TimerControls };

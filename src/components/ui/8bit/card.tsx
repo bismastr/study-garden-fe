@@ -44,7 +44,7 @@ function Card({ ...props }: BitCardProps) {
       <ShadcnCard
         {...props}
         className={cn(
-          "rounded-none border-0 !w-full",
+          "rounded-none border-0 !w-full relative z-[1]",
           font !== "normal" && "retro",
           className,
         )}

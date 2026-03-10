@@ -1,6 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { useRoomStore } from "../../store/useRoomStore";
 import { wsService } from "../../services/wsService";
+import { MessageSquare, Send, X } from "lucide-react";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/8bit/card";
+import { Button } from "@/components/ui/8bit/button";
+import { Input } from "@/components/ui/8bit/input";
+import { Badge } from "@/components/ui/8bit/badge";
+import { ScrollArea } from "@/components/ui/8bit/scroll-area";
 
 function formatTs(ts: number): string {
   const d = new Date(ts * 1000);
@@ -31,59 +43,75 @@ const ChatPanel = () => {
 
   if (!open) {
     return (
-      <button
+      <Button
         onClick={() => setOpen(true)}
-        className="pointer-events-auto bg-amber-100 border-4 border-amber-900 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] font-mono font-bold text-amber-900 px-4 py-2 uppercase tracking-wider hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.3)] active:shadow-none transition-all"
+        className="pointer-events-auto text-xs uppercase tracking-wider text-primary-foreground hover:bg-primary/80"
       >
-        Chat ({messages.length})
-      </button>
+        <MessageSquare className="size-3" />
+        Chat
+        {messages.length > 0 && (
+          <Badge variant="default" className="ml-1 text-[8px]">
+            {messages.length}
+          </Badge>
+        )}
+      </Button>
     );
   }
 
   return (
-    <div className="pointer-events-auto w-72 h-80 bg-amber-100 border-4 border-amber-900 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b-2 border-amber-900">
-        <span className="font-mono font-bold text-amber-900 uppercase tracking-wider text-sm">
-          Chat
-        </span>
-        <button
+    <Card className="pointer-events-auto w-72 bg-card flex flex-col">
+      <CardHeader className="flex flex-row items-center justify-between p-3 pb-0">
+        <CardTitle className="text-xs uppercase tracking-wider">Chat</CardTitle>
+        <Button
           onClick={() => setOpen(false)}
-          className="font-mono font-bold text-amber-900 hover:text-red-700 px-1"
+          variant="ghost"
+          size="icon"
+          className="size-6"
         >
-          x
-        </button>
-      </div>
+          <X className="size-3" />
+        </Button>
+      </CardHeader>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-3 py-2 space-y-1 bg-amber-50 border-b-2 border-amber-900">
-        {messages.map((msg) => (
-          <div key={msg.id} className="font-mono text-xs leading-relaxed">
-            <span className="font-bold text-green-800">{msg.username}</span>
-            <span className="text-amber-600 ml-1">{formatTs(msg.ts)}</span>
-            <p className="text-amber-900">{msg.body}</p>
+      <CardContent className="flex flex-col gap-0 p-0 flex-1">
+        {/* Messages */}
+        <ScrollArea className="h-56 px-3 py-2">
+          <div className="space-y-2">
+            {messages.map((msg) => (
+              <div key={msg.id} className="retro text-[9px] leading-relaxed">
+                <span className="font-bold text-primary">{msg.username}</span>
+                <span className="text-muted-foreground ml-1">
+                  {formatTs(msg.ts)}
+                </span>
+                <p className="text-foreground mt-0.5">{msg.body}</p>
+              </div>
+            ))}
+            <div ref={bottomRef} />
           </div>
-        ))}
-        <div ref={bottomRef} />
-      </div>
+        </ScrollArea>
 
-      {/* Input */}
-      <form onSubmit={handleSend} className="flex">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type..."
-          className="flex-1 px-2 py-1.5 font-mono text-sm bg-amber-50 text-amber-900 border-r-2 border-amber-900 outline-none placeholder:text-amber-400"
-        />
-        <button
-          type="submit"
-          className="bg-green-700 border-0 text-amber-100 font-mono font-bold px-3 py-1.5 uppercase text-sm hover:bg-green-800 transition-colors"
+        {/* Input */}
+        <form
+          onSubmit={handleSend}
+          className="flex items-center gap-0 p-2 pt-0"
         >
-          Send
-        </button>
-      </form>
-    </div>
+          <Input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type..."
+            font="retro"
+            className="flex-1 text-[10px]"
+          />
+          <Button
+            type="submit"
+            size="sm"
+            className="ml-2 text-[10px] uppercase"
+          >
+            <Send className="size-3" />
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 
