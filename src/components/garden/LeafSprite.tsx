@@ -39,6 +39,7 @@ const LeafSprite = () => {
 
     useEffect(() => {
         Assets.load("/assets/leaf/leaf_metadata.json").then((sheet: Spritesheet) => {
+            sheet.textureSource.scaleMode = "nearest";
             setTextures(sheet.animations.leaf);
         });
     }, []);
