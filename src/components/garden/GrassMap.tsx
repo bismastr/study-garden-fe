@@ -10,7 +10,8 @@ const GrassMap = () => {
 
   useEffect(() => {
     if (texture === Texture.EMPTY) {
-      Assets.load("/assets/grass_day_map.png").then((result) => {
+      Assets.load("/assets/map/study_garden_map_day.png").then((result: Texture) => {
+        result.source.scaleMode = "nearest"; // pixel-perfect, no blur
         setTexture(result);
       });
     }
@@ -21,7 +22,7 @@ const GrassMap = () => {
       ref={spriteRef}
       texture={texture}
       anchor={0.5}
-      scale={2}
+      scale={4}
       x={app.screen.width / 2}
       y={app.screen.height / 2}
     />

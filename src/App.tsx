@@ -1,13 +1,13 @@
 import { Application, extend } from "@pixi/react";
-import { Container, Sprite, Text, TilingSprite } from "pixi.js";
+import { AnimatedSprite, Container, Sprite, Text, TilingSprite } from "pixi.js";
 import { RoomProvider } from "./components/RoomProvider";
 import MainMenuBackground from "./components/mainmenu/MainMenuBackground";
 import { useRoomStore } from "./store/useRoomStore";
 import MainMenu from "./pages/MainMenu";
 import GameScene from "./scenes/GameScene";
-import GameUI from "./components/GameUI";
+import GameUI from "./components/garden/GardenUI";
 
-extend({ Container, Sprite, Text, TilingSprite });
+extend({ AnimatedSprite, Container, Sprite, Text, TilingSprite });
 
 export default function App() {
   const phase = useRoomStore((s) => s.phase);

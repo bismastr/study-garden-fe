@@ -1,4 +1,5 @@
-import GrassMap from "../components/GrassMap";
+import LeafSprite from "@/components/garden/LeafSprite";
+import GrassMap from "../components/garden/GrassMap";
 import GardenGrid from "../components/GardenGrid";
 
 const GameScene = () => {
@@ -6,6 +7,7 @@ const GameScene = () => {
     <pixiContainer>
       <GrassMap />
       <GardenGrid />
+      <LeafSprite />
     </pixiContainer>
   );
 };

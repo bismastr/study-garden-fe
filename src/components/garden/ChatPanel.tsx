@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { useRoomStore } from "../store/useRoomStore";
-import { wsService } from "../services/wsService";
+import { useRoomStore } from "../../store/useRoomStore";
+import { wsService } from "../../services/wsService";
 
 function formatTs(ts: number): string {
   const d = new Date(ts * 1000);
@@ -33,7 +33,7 @@ const ChatPanel = () => {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="pointer-events-auto bg-amber-100 border-4 border-amber-900 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] font-mono font-bold text-amber-900 px-4 py-2 uppercase tracking-wider hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.3)] active:shadow-none transition-all"
+        className="pointer-events-auto bg-amber-100 border-4 border-amber-900 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] font-mono font-bold text-amber-900 px-4 py-2 uppercase tracking-wider hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.3)] active:shadow-none transition-all"
       >
         Chat ({messages.length})
       </button>

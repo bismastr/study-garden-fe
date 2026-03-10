@@ -1,6 +1,6 @@
-import { useTimerCountdown } from "../hooks/useTimerCountdown";
-import { useRoomStore } from "../store/useRoomStore";
-import { wsService } from "../services/wsService";
+import { useTimerCountdown } from "../../hooks/useTimerCountdown";
+import { useRoomStore } from "../../store/useRoomStore";
+import { wsService } from "../../services/wsService";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -39,7 +39,7 @@ const TimerPanel = () => {
 
       <button
         onClick={handleToggle}
-        className="pointer-events-auto bg-green-700 border-2 border-green-900 text-amber-100 font-mono font-bold px-5 py-2 uppercase tracking-wider shadow-[3px_3px_0_0_rgba(0,0,0,0.3)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.3)] active:shadow-none transition-all"
+        className="pointer-events-auto bg-green-700 border-2 border-green-900 text-amber-100 font-mono font-bold px-5 py-2 uppercase tracking-wider shadow-[3px_3px_0_0_rgba(0,0,0,0.3)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.3)] active:shadow-none transition-all"
       >
         {timerRunning ? "Pause" : "Start"}
       </button>
