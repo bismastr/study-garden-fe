@@ -2,20 +2,21 @@ import { useApplication } from "@pixi/react";
 import { useRoomStore } from "../store/useRoomStore";
 import FlowerSprite from "./FlowerSprite";
 
-const GRID_COLS = 3;
-const COL_CENTERS = [350, 480, 610];
-const ROW_CENTERS = [200, 300, 400];
-const IMG_CENTER_X = 480;
-const IMG_CENTER_Y = 320;
-const MAP_SCALE = 2;
+const GRID_COLS = 4;
+const TILE_SIZE = 16;
+const COL_TILES = [11, 13, 16, 18];
+const ROW_TILES = [7, 9];
+const IMG_CENTER_X = 240; // 480 / 2
+const IMG_CENTER_Y = 136; // 272 / 2
+const MAP_SCALE = 4; // match GrassMap scale
 const FOCUS_DURATION = 1500;
 
 function getSlotPosition(slot: number): { x: number; y: number } {
   const col = slot % GRID_COLS;
   const row = Math.floor(slot / GRID_COLS);
   return {
-    x: (COL_CENTERS[col] - IMG_CENTER_X) * MAP_SCALE,
-    y: (ROW_CENTERS[row] - IMG_CENTER_Y) * MAP_SCALE,
+    x: (COL_TILES[col] * TILE_SIZE - IMG_CENTER_X) * MAP_SCALE,
+    y: (ROW_TILES[row] * TILE_SIZE - IMG_CENTER_Y) * MAP_SCALE,
   };
 }
 
@@ -38,7 +39,7 @@ const GardenGrid = () => {
   return (
     <pixiContainer x={app.screen.width / 2} y={app.screen.height / 2}>
       {users
-        .filter((u) => u.slot >= 0 && u.slot < 9)
+        .filter((u) => u.slot >= 0 && u.slot < 8)
         .map((user) => {
           const pos = getSlotPosition(user.slot);
           return (
